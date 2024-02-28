@@ -112,11 +112,12 @@ int main(int argc, char const *argv[])
     int sd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
 
     struct ifreq req;
-    strncpy(req.ifr_name, argv[1], strlen(argv[1]));
+    strncpy(req.ifr_name, argv[1], IFNAMSIZ);
     int32_t ret = ioctl(sd, SIOCGIFINDEX, &req);
     if (ret == -1)
     {
         printf("fail to get interface: %s\n", strerror(errno));
+        exit(-1);
     }
 
     struct sockaddr_ll sockaddr;
